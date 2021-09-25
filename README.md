@@ -5,7 +5,7 @@
 
 - 🔭 I’m currently working on [AmbevTech](https://ambevtech.gupy.io/)
 
-- 🌱 I’m currently learning **Terraform, Ansilbe, Observability**
+- 🌱 I’m currently learning **Terraform, Ansible, Observability**
 
 - 👯 I’m looking to collaborate on [Mentoria IAC](https://gomex.me/mentoriaiac/)
 
