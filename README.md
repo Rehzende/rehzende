@@ -1,19 +1,16 @@
 <h1 align="center">Hi 👋, I'm Marcos Rezende</h1>
 <h3 align="center">Site Reliability Engineering</h3>
 
-
-
 - 🔭 I’m currently working on [AmbevTech](https://ambevtech.gupy.io/)
 
 - 🌱 I’m currently learning **Terraform, Ansible, Observability**
 
-- 👯 I’m looking to collaborate on [Mentoria IAC](https://gomex.me/mentoriaiac/)
-
-- 🤝 I’m looking for help with **Pretux**
+- 🤝 I’m collaborating on [Mentoria IAC](https://gomex.me/mentoriaiac/) and **Pretux**
 
 - 📝 I regularly write articles on [https://rehzende.medium.com/](https://rehzende.medium.com/)
 
 - 📫 How to reach me **rehzende@hotmail.com**
+
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
