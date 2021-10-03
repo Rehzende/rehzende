@@ -23,12 +23,12 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - name: Set env to staging
-      if: endsWith(github.ref, '/master')
+      if: endsWith(github.ref, '/main')
       run: |
         echo "::set-env name=ENVIRONMENT::staging"
         echo "Hello $NAME!"
     - name: Set env to production
-      if: endsWith(github.ref, '/master')
+      if: endsWith(github.ref, '/main')
       run: |
         echo "::set-env name=ENVIRONMENT::production"
         echo "Hello $NAME"
