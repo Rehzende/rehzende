@@ -22,7 +22,10 @@ Terraform é a ferramenta mais popular e de código aberto para automação de i
 ## Componentes
 **Providers:**
 Terraform depende de plug-ins chamados "provedores" para interagir com provedores de nuvem, provedores de SaaS e outras APIs.
-Resources:
+
+**Resources:**
+*Os recursos* são o elemento mais importante na linguagem Terraform. Cada bloco de recursos descreve um ou mais objetos de infraestrutura, como redes virtuais, instâncias de computação ou componentes de nível superior, como registros DNS.
+
 **Data Sources:**
 As *fontes de dados* permitem que o Terraform use informações definidas fora do Terraform, definidas por outra configuração separada do Terraform ou modificadas por funções
 
@@ -31,6 +34,7 @@ As *fontes de dados* permitem que o Terraform use informações definidas fora d
 *Valores de saída* são como valores de retorno para um módulo Terraform.
 **Locals:**
 *Os locais* são valores nomeados aos quais você pode se referir em sua configuração. Você pode usar valores locais para simplificar a configuração do Terraform e evitar a repetição.
+
 **Modules:**
 *Módulos* são contêineres para vários recursos usados juntos. 
 **States:**
