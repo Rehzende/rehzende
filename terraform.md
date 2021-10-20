@@ -36,7 +36,8 @@ As *fontes de dados* permitem que o Terraform use informações definidas fora d
 *Os locais* são valores nomeados aos quais você pode se referir em sua configuração. Você pode usar valores locais para simplificar a configuração do Terraform e evitar a repetição.
 
 **Modules:**
-*Módulos* são contêineres para vários recursos usados juntos. 
+*Módulos* são contêineres para vários recursos usados juntos. 5
+
 **States:**
 O Terraform deve armazenar o *estado* sobre sua infraestrutura e configuração gerenciadas. Esse estado é usado pelo Terraform para mapear recursos do mundo real para sua configuração, controlar os metadados e melhorar o desempenho de grandes infraestruturas.
 **Backend:**
