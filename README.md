@@ -5,10 +5,6 @@
 
 - 🌱 I’m currently learning **Terraform, Ansible, Observability**
 
-- 🤝 I’m collaborating on [Mentoria IAC](https://gomex.me/mentoriaiac/) and **Pretux**
-
-- 📝 I regularly write articles on [https://rehzende.medium.com/](https://rehzende.medium.com/)
-
 - 📫 How to reach me **rehzende@hotmail.com**
 
 
