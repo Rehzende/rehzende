@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Marcos Rezende — Site Reliability Engineer. I build AI-native incident-investigation systems and run them against a real production app in my own homelab." />
+<meta property="og:title" content="Marcos Rezende — Site Reliability Engineer" />
+<meta property="og:description" content="AI-native incident investigation, built and operated end to end." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='84'%3E%F0%9F%93%A1%3C/text%3E%3C/svg%3E" />
+<title>Marcos Rezende — Site Reliability Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F7F4EE;
+    --surface:#FFFFFF;
+    --surface-2:#F0EAD9;
+    --ink:#1E2024;
+    --muted:#5B6169;
+    --line:#E1D9C8;
+    --accent:#C4571F;
+    --accent-ink:#FFFFFF;
+    --accent-2:#276A71;
+    --good:#3F8361;
+    --bad:#B23A4E;
+    --shadow:rgba(30,32,36,0.10);
+    --font-display:'Newsreader', ui-serif, Georgia, 'Times New Roman', serif;
+    --font-body:'Work Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono:'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14171C;
+      --surface:#1B1F26;
+      --surface-2:#20252E;
+      --ink:#ECE9E2;
+      --muted:#9199A3;
+      --line:#2A2F38;
+      --accent:#E08A44;
+      --accent-ink:#14171C;
+      --accent-2:#5FB8BE;
+      --good:#5FAE81;
+      --bad:#D9576C;
+      --shadow:rgba(0,0,0,0.40);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14171C;
+    --surface:#1B1F26;
+    --surface-2:#20252E;
+    --ink:#ECE9E2;
+    --muted:#9199A3;
+    --line:#2A2F38;
+    --accent:#E08A44;
+    --accent-ink:#14171C;
+    --accent-2:#5FB8BE;
+    --good:#5FAE81;
+    --bad:#D9576C;
+    --shadow:rgba(0,0,0,0.40);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;} }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit;}
+  img,svg{max-width:100%;display:block;}
+
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+  .prose{max-width:66ch;}
+
+  h1,h2,h3{font-family:var(--font-display);font-weight:500;text-wrap:balance;margin:0;}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+  .eyebrow.muted{color:var(--muted);}
+
+  /* ---- nav ---- */
+  header.top{
+    position:sticky; top:0; z-index:20;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  header.top .bar{
+    display:flex; align-items:center; justify-content:space-between;
+    height:60px;
+  }
+  header.top .name{
+    font-family:var(--font-mono); font-size:14px; font-weight:600;
+    text-decoration:none; letter-spacing:0.01em;
+  }
+  header.top .name span{color:var(--accent);}
+  header.top nav{display:flex; gap:26px;}
+  header.top nav a{
+    font-family:var(--font-mono); font-size:12.5px; text-transform:uppercase;
+    letter-spacing:0.04em; text-decoration:none; color:var(--muted);
+    transition:color .15s ease;
+  }
+  header.top nav a:hover, header.top nav a:focus-visible{color:var(--accent);}
+  @media (max-width:640px){ header.top nav{gap:16px;} header.top nav a{font-size:11px;} }
+
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px;}
+
+  /* ---- hero ---- */
+  section.hero{padding:96px 0 80px; border-bottom:1px solid var(--line);}
+  section.hero .eyebrow{margin-bottom:22px; display:block;}
+  section.hero h1{
+    font-size:clamp(34px, 5.4vw, 60px);
+    line-height:1.12;
+    max-width:16ch;
+  }
+  section.hero h1 em{font-style:italic; color:var(--accent);}
+  section.hero .sub{
+    margin-top:26px; max-width:56ch; font-size:18px; color:var(--muted); line-height:1.65;
+  }
+  section.hero .sub strong{color:var(--ink); font-weight:600;}
+  .cta-row{display:flex; flex-wrap:wrap; gap:12px; margin-top:36px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-mono); font-size:13px; text-decoration:none;
+    padding:11px 18px; border-radius:3px; border:1px solid var(--line);
+    color:var(--ink); transition:border-color .15s ease, transform .15s ease, background .15s ease;
+  }
+  .btn:hover, .btn:focus-visible{border-color:var(--accent); transform:translateY(-1px);}
+  .btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent);}
+  .btn.primary:hover{background:var(--accent); opacity:0.92;}
+
+  /* ---- reveal ---- */
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ---- intro ---- */
+  section.intro{padding:64px 0; border-bottom:1px solid var(--line);}
+  section.intro p{font-size:19px; font-family:var(--font-display); font-weight:400; line-height:1.7; color:var(--ink);}
+  section.intro p em{color:var(--accent-2); font-style:italic;}
+
+  /* ---- case studies ---- */
+  section.case{padding:80px 0; border-bottom:1px solid var(--line);}
+  .case-head{display:flex; justify-content:space-between; align-items:baseline; gap:24px; flex-wrap:wrap; margin-bottom:20px;}
+  .case-head h2{font-size:clamp(26px,3.4vw,38px);}
+  .case-tag{font-family:var(--font-mono); font-size:12px; color:var(--muted); white-space:nowrap;}
+  .case-dek{font-size:17px; color:var(--muted); max-width:68ch; margin-top:6px; margin-bottom:40px;}
+
+  .case-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:56px; align-items:start;}
+  @media (max-width:900px){ .case-grid{grid-template-columns:1fr;} }
+
+  .case-grid h3{font-size:15px; font-family:var(--font-mono); font-weight:600; text-transform:uppercase; letter-spacing:0.03em; color:var(--ink); margin-bottom:12px;}
+  .case-grid p{color:var(--muted); font-size:15.5px;}
+  .case-grid section + section{margin-top:34px;}
+
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+  .chip{
+    font-family:var(--font-mono); font-size:12px; padding:5px 10px;
+    background:var(--surface-2); border:1px solid var(--line); border-radius:3px; color:var(--ink);
+  }
+
+  /* diagram */
+  .diagram{
+    background:var(--surface); border:1px solid var(--line); border-radius:6px;
+    padding:26px 22px; box-shadow:0 2px 14px var(--shadow);
+  }
+  .dnode{
+    font-family:var(--font-mono); font-size:12.5px; text-align:center;
+    padding:11px 12px; border:1px solid var(--line); border-radius:4px; background:var(--surface-2);
+  }
+  .dnode.accent{border-color:var(--accent); color:var(--accent);}
+  .darrow{display:flex; justify-content:center; padding:6px 0; color:var(--muted); font-size:13px; font-family:var(--font-mono);}
+  .dmesh{display:grid; grid-template-columns:repeat(auto-fit,minmax(96px,1fr)); gap:8px; margin:8px 0;}
+  .dmesh .dnode{font-size:11.5px; padding:9px 6px;}
+  .dcaption{font-family:var(--font-mono); font-size:11px; color:var(--muted); text-align:center; margin-top:14px; letter-spacing:0.02em;}
+
+  /* metric cards */
+  .metrics{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:10px;}
+  @media (max-width:520px){ .metrics{grid-template-columns:1fr;} }
+  .metric{
+    background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:18px 18px;
+    box-shadow:0 2px 14px var(--shadow);
+  }
+  .metric .m-label{font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted);}
+  .metric .m-value{
+    font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-size:23px; font-weight:600;
+    margin-top:8px; display:flex; align-items:baseline; gap:8px;
+  }
+  .metric .m-value .from{color:var(--bad);}
+  .metric .m-value .to{color:var(--good);}
+  .metric .m-value .arrow{color:var(--muted); font-size:16px;}
+  .metric .m-note{font-size:12.5px; color:var(--muted); margin-top:6px;}
+
+  .find-list{list-style:none; margin:0; padding:0;}
+  .find-list li{
+    font-size:14.5px; color:var(--muted); padding:9px 0 9px 18px; border-top:1px solid var(--line); position:relative;
+  }
+  .find-list li:first-child{border-top:none;}
+  .find-list li::before{content:"–"; position:absolute; left:0; color:var(--accent-2);}
+  .find-list li strong{color:var(--ink); font-weight:600;}
+
+  /* ---- method (runbook) ---- */
+  section.method{padding:80px 0; border-bottom:1px solid var(--line);}
+  .steps{margin-top:40px; border-top:1px solid var(--line);}
+  .step{
+    display:grid; grid-template-columns:64px 1fr; gap:22px; padding:26px 0; border-bottom:1px solid var(--line);
+  }
+  .step .snum{font-family:var(--font-mono); font-size:13px; color:var(--accent); padding-top:3px;}
+  .step h3{font-size:19px; margin-bottom:8px;}
+  .step p{margin:0; color:var(--muted); font-size:15px; max-width:64ch;}
+
+  /* ---- stack ---- */
+  section.stack{padding:72px 0; border-bottom:1px solid var(--line);}
+  .stack-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:30px; margin-top:36px;}
+  @media (max-width:800px){ .stack-grid{grid-template-columns:repeat(2,1fr);} }
+  .stack-col h4{font-family:var(--font-mono); font-size:11.5px; text-transform:uppercase; letter-spacing:0.04em; color:var(--accent-2); margin:0 0 12px;}
+  .stack-col ul{list-style:none; margin:0; padding:0;}
+  .stack-col li{font-size:14px; color:var(--muted); padding:4px 0;}
+
+  /* ---- footer ---- */
+  footer{padding:56px 0 64px;}
+  footer .foot-top{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:24px;}
+  footer h2{font-size:clamp(24px,3.4vw,32px); max-width:14ch;}
+  footer .links{display:flex; flex-direction:column; gap:10px; align-items:flex-end;}
+  @media (max-width:640px){ footer .links{align-items:flex-start;} }
+  footer .links a{font-family:var(--font-mono); font-size:13.5px; text-decoration:none; color:var(--muted); transition:color .15s ease;}
+  footer .links a:hover, footer .links a:focus-visible{color:var(--accent);}
+  footer .fine{margin-top:52px; padding-top:22px; border-top:1px solid var(--line); font-family:var(--font-mono); font-size:12px; color:var(--muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a href="#top" class="name">marcos<span>.</span>rezende</a>
+    <nav>
+      <a href="#rcai">RCAI</a>
+      <a href="#pulso">Pulso</a>
+      <a href="#method">Method</a>
+      <a href="#stack">Stack</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Site Reliability Engineer — building &amp; operating AI-native systems</span>
+      <h1>I teach systems<br />to explain <em>their own</em><br />incidents.</h1>
+      <p class="sub">I'm <strong>Marcos Rezende</strong>. I design incident-investigation platforms that reason like an SRE would — then I run one of my own apps against them, in my own homelab, under real load, to prove the reasoning holds up.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#rcai">See the work ↓</a>
+        <a class="btn" href="https://github.com/Rehzende" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://linkedin.com/in/marcosrehzende" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="mailto:rehzende@hotmail.com">Email</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="intro reveal">
+    <div class="wrap">
+      <p class="prose">Most of my work lives at the intersection of two things: <em>an AI-native platform that investigates production incidents</em>, and <em>a real app I keep alive on my own hardware</em> so that platform has something honest to investigate. Below are both, with the numbers to back them.</p>
+    </div>
+  </section>
+
+  <section class="case reveal" id="rcai">
+    <div class="wrap">
+      <div class="case-head">
+        <h2>RCAI — Root Cause Analysis Intelligence</h2>
+        <span class="case-tag">[PLATFORM] self-hosted · multi-agent · commercial-grade</span>
+      </div>
+      <p class="case-dek">A self-hosted platform that turns a raw alert into a structured, blameless investigation automatically — triage, evidence, root-cause analysis and postmortem, produced by a mesh of specialized agents an LLM orchestrator assembles on the fly.</p>
+
+      <div class="case-grid">
+        <div>
+          <section>
+            <h3>What it does</h3>
+            <p>An alert lands from Datadog, Prometheus, Grafana or OTel. The Go API normalizes it, links it to the affected service, and publishes it onto a Redis-streamed event pipeline. From there, a Python orchestrator reads the incident's context — the affected service's repo, pipeline, cloud resources, on-call team — and uses an LLM to decide which agents to call and in what order. That's a deliberate departure from a fixed pipeline: the routing is a runtime decision, not a hardcoded stage sequence.</p>
+          </section>
+          <section>
+            <h3>How it's structured</h3>
+            <p>Each agent — triage, evidence collection, root-cause analysis, blameless postmortem, plus a Kubernetes-debug specialist — is an independent microservice speaking Google's A2A protocol: its own Agent Card, its own endpoint, discoverable and callable without knowing its internals. Every run is tracked as a DAG (parent run, tokens, duration), visualized like an MLflow experiment, so an investigation's reasoning is auditable after the fact, not just a final answer.</p>
+          </section>
+          <section>
+            <h3>Built the way it's meant to be trusted</h3>
+            <p>Contracts before code, tests before implementation, and — because a lot of this gets built with AI agents working in parallel — a quality harness that's non-negotiable: nothing ships until the real build and test suite has been run by hand. That discipline has caught bugs no agent's own report mentioned — a call into a method a sibling agent had already refactored, a security fix that silently broke every internal caller that forgot to send the new required header, frontend routes calling backend endpoints that were never actually implemented.</p>
+          </section>
+        </div>
+
+        <div>
+          <div class="diagram">
+            <div class="dnode">Alert · Datadog / Prometheus / Grafana / OTel</div>
+            <div class="darrow">↓ normalize · link to service</div>
+            <div class="dnode accent">Orchestrator — LLM decides which agents run, and in what order</div>
+            <div class="darrow">↓ A2A tasks/send</div>
+            <div class="dmesh">
+              <div class="dnode">Triage</div>
+              <div class="dnode">Evidence</div>
+              <div class="dnode">RCA / RCI</div>
+              <div class="dnode">Postmortem</div>
+              <div class="dnode">K8s-Debug</div>
+            </div>
+            <div class="darrow">↓ DAG-tracked results</div>
+            <div class="dnode">Structured incident record — blameless, evidence-grounded, confidence-scored</div>
+            <div class="dcaption">agent mesh — each box is its own microservice + Agent Card</div>
+          </div>
+          <div class="chips">
+            <span class="chip">Go</span><span class="chip">Python / FastAPI</span><span class="chip">CrewAI</span>
+            <span class="chip">React / TypeScript</span><span class="chip">PostgreSQL</span><span class="chip">Redis Streams</span>
+            <span class="chip">Google A2A Protocol</span><span class="chip">MLflow</span><span class="chip">Docker</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="case reveal" id="pulso">
+    <div class="wrap">
+      <div class="case-head">
+        <h2>Pulso — the proving ground</h2>
+        <span class="case-tag">[PRODUCTION] fitness app · homelab-operated · k3s</span>
+      </div>
+      <p class="case-dek">Pulso is a real fitness app — workouts, streaks, gamification — that I run and operate on my own k3s cluster at home. It's not a demo environment: it takes real traffic, real load tests, and real on-call-style incidents, which is exactly why it's useful.</p>
+
+      <div class="case-grid">
+        <div>
+          <section>
+            <h3>Finding the breaking point</h3>
+            <p>I pushed Pulso from 150 to 3,000 concurrent virtual users with k6 — not hammering reads, but simulating complete real workout sessions: start, paced heartbeats, finish. At scale, the app degraded exactly the way real systems do: database connection-pool exhaustion, requests queuing behind an idle-in-transaction write, latency climbing until readiness probes started failing.</p>
+          </section>
+          <section>
+            <h3>What actually fixed it</h3>
+            <ul class="find-list">
+              <li><strong>Horizontal Pod Autoscaling</strong> (2→6 replicas, CPU-targeted) plus a right-sized connection pool per replica, kept under Postgres's connection ceiling.</li>
+              <li><strong>Two real bugs under load</strong>, invisible until put under stress: a timezone-comparison crash on session close, and missing migrations that let live endpoints 500 silently in production.</li>
+              <li><strong>A broken alert</strong> caught in the process: p95 latency alerts weren't firing above ~1s because of a histogram bucket ceiling — fixed before it could hide a real incident.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Closing the loop with RCAI</h3>
+            <p>Pulso's Alertmanager alerts feed straight into an RCAI Kubernetes agent running on the same cluster. The moment something fires, it collects logs, traces and metrics on its own and runs them through an on-cluster LLM to produce a structured root-cause analysis — ranked causes, evidence, recommended actions — with no one triggering it by hand. It's RCAI's own reasoning, dogfooded on infrastructure I actually depend on.</p>
+          </section>
+        </div>
+
+        <div>
+          <div class="metrics">
+            <div class="metric">
+              <div class="m-label">Error rate, under peak load</div>
+              <div class="m-value"><span class="from">60%</span><span class="arrow">→</span><span class="to">0.85%</span></div>
+              <div class="m-note">after HPA + connection-pool fix, same 3,000-VU test</div>
+            </div>
+            <div class="metric">
+              <div class="m-label">p95 latency, under peak load</div>
+              <div class="m-value"><span class="from">43s</span><span class="arrow">→</span><span class="to">20s</span></div>
+              <div class="m-note">no pod restarts on the retest</div>
+            </div>
+            <div class="metric">
+              <div class="m-label">Peak simulated traffic</div>
+              <div class="m-value">3,000 <span style="font-size:13px;color:var(--muted);font-weight:500;">VUs</span></div>
+              <div class="m-note">real workout sessions, not synthetic reads</div>
+            </div>
+            <div class="metric">
+              <div class="m-label">Autoscaling</div>
+              <div class="m-value">2 <span class="arrow">→</span> 6</div>
+              <div class="m-note">replicas, HPA on CPU target</div>
+            </div>
+          </div>
+          <div class="chips">
+            <span class="chip">Kubernetes (k3s)</span><span class="chip">Prometheus</span><span class="chip">Grafana</span>
+            <span class="chip">Loki</span><span class="chip">Tempo</span><span class="chip">k6</span>
+            <span class="chip">FastAPI</span><span class="chip">On-cluster LLM RCA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="method reveal" id="method">
+    <div class="wrap">
+      <span class="eyebrow muted">[RUNBOOK]</span>
+      <h2 style="font-size:clamp(26px,3.4vw,38px); margin-top:14px;">How I use AI to build and operate</h2>
+      <p class="case-dek" style="margin-bottom:0;">Not "vibe coding" — a discipline for using AI agents at real leverage without losing the ability to trust what they hand back.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="snum">01</div>
+          <div><h3>Contract first</h3><p>The interface or schema between two components gets defined before either side is implemented — so two agents (or two future engineers) working on opposite ends of a call can't silently drift apart.</p></div>
+        </div>
+        <div class="step">
+          <div class="snum">02</div>
+          <div><h3>Tests before code</h3><p>The test is the spec. Implementation is done once there's something concrete to make pass — not the other way around.</p></div>
+        </div>
+        <div class="step">
+          <div class="snum">03</div>
+          <div><h3>Parallel agents, one verifier</h3><p>Multiple agents can work disjoint files at once — that part scales fine. What doesn't scale is trusting a written summary of what they did. Every pass ends with the actual build and test suite run by hand, because that's what catches the bugs no agent's own report mentions.</p></div>
+        </div>
+        <div class="step">
+          <div class="snum">04</div>
+          <div><h3>Operate what you build</h3><p>The same reasoning that helps design a system gets deployed to help run it — RCAI's Kubernetes agent watching Pulso's real alerts is that idea in production, not a slide.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stack reveal" id="stack">
+    <div class="wrap">
+      <span class="eyebrow muted">[STACK]</span>
+      <h2 style="font-size:clamp(26px,3.4vw,34px); margin-top:14px;">Languages, infra, and the tools in between</h2>
+      <div class="stack-grid">
+        <div class="stack-col">
+          <h4>Languages &amp; services</h4>
+          <ul><li>Go</li><li>Python / FastAPI</li><li>TypeScript / React</li><li>Bash</li></ul>
+        </div>
+        <div class="stack-col">
+          <h4>Infra &amp; orchestration</h4>
+          <ul><li>Kubernetes (k3s)</li><li>Docker</li><li>Terraform</li><li>AWS · Azure</li><li>Nginx</li></ul>
+        </div>
+        <div class="stack-col">
+          <h4>Data &amp; messaging</h4>
+          <ul><li>PostgreSQL</li><li>Redis (pub/sub &amp; Streams)</li><li>MySQL · MSSQL · MongoDB</li></ul>
+        </div>
+        <div class="stack-col">
+          <h4>Observability &amp; AI</h4>
+          <ul><li>Prometheus · Grafana</li><li>Loki · Tempo</li><li>MLflow</li><li>CrewAI · Google A2A</li><li>k6</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="wrap">
+      <div class="foot-top">
+        <h2>Let's talk about reliability, agents, or both.</h2>
+        <div class="links">
+          <a href="mailto:rehzende@hotmail.com">rehzende@hotmail.com</a>
+          <a href="https://github.com/Rehzende" target="_blank" rel="noopener">github.com/Rehzende</a>
+          <a href="https://linkedin.com/in/marcosrehzende" target="_blank" rel="noopener">linkedin.com/in/marcosrehzende</a>
+          <a href="https://dev.to/rehzende" target="_blank" rel="noopener">dev.to/rehzende</a>
+          <a href="https://medium.com/@rehzende" target="_blank" rel="noopener">medium.com/@rehzende</a>
+        </div>
+      </div>
+      <div class="fine">
+        <span>© <span id="year"></span> Marcos Rezende. Currently reliability-engineering at AmbevTech — RCAI and Pulso are independent, personal work.</span>
+        <span>Built with Claude Code.</span>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  var els = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.1});
+    els.forEach(function(el){ io.observe(el); });
+  } else {
+    els.forEach(function(el){ el.classList.add('in'); });
+  }
+</script>
+</body>
+</html>
