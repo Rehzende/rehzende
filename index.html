@@ -244,7 +244,7 @@
   <div class="wrap bar">
     <a href="#top" class="name">marcos<span>.</span>rezende</a>
     <nav>
-      <a href="#rcai">RCAI</a>
+      <a href="#rootcauseway">RootCauseway</a>
       <a href="#pulso">Pulso</a>
       <a href="#method">Method</a>
       <a href="#stack">Stack</a>
@@ -258,22 +258,23 @@
     <div class="wrap">
       <span class="eyebrow">Site Reliability Engineer</span>
       <h1>I'm an SRE.<br />This is my homelab.</h1>
-      <p class="sub">I'm <strong>Marcos Rezende</strong>. On my own Kubernetes cluster at home I build and run two things: <strong>RCAI</strong>, a self-hosted incident-investigation platform, and <strong>Pulso</strong>, a real app I use to load-test and break it on purpose. Both are below, with the actual numbers.</p>
+      <p class="sub">I'm <strong>Marcos Rezende</strong>. On my own Kubernetes cluster at home I build and run two things: <strong>RootCauseway</strong>, a self-hosted incident-investigation platform, and <strong>Pulso</strong>, a real app I use to load-test and break it on purpose. Both are below, with the actual numbers.</p>
       <div class="cta-row">
-        <a class="btn primary" href="#rcai">See the work ↓</a>
+        <a class="btn primary" href="#rootcauseway">See the work ↓</a>
         <a class="btn" href="https://github.com/Rehzende" target="_blank" rel="noopener">GitHub</a>
         <a class="btn" href="https://linkedin.com/in/marcosrehzende" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
   </section>
 
-  <section class="case reveal" id="rcai">
+  <section class="case reveal" id="rootcauseway">
     <div class="wrap">
       <div class="case-head">
-        <h2>RCAI — Root Cause Analysis Intelligence</h2>
+        <h2>RootCauseway — Root Cause Analysis Intelligence</h2>
         <span class="case-tag">[PLATFORM] self-hosted · multi-agent · commercial-grade</span>
       </div>
       <p class="case-dek">A self-hosted platform that turns a raw alert into a structured, blameless investigation automatically — triage, evidence, root-cause analysis and postmortem, produced by a mesh of specialized agents an LLM orchestrator assembles on the fly.</p>
+      <p style="margin-top:-24px; margin-bottom:40px;"><a class="btn" href="https://github.com/Rehzende/RootCauseWay" target="_blank" rel="noopener">View the code ↗</a></p>
 
       <div class="case-grid">
         <div>
@@ -284,6 +285,14 @@
           <section>
             <h3>How it's structured</h3>
             <p>Each agent — triage, evidence collection, root-cause analysis, blameless postmortem, plus a Kubernetes-debug specialist — is an independent microservice speaking Google's A2A protocol: its own Agent Card, its own endpoint, discoverable and callable without knowing its internals. Every run is tracked as a DAG (parent run, tokens, duration), visualized like an MLflow experiment, so an investigation's reasoning is auditable after the fact, not just a final answer.</p>
+          </section>
+          <section>
+            <h3>Why these choices</h3>
+            <p>An LLM decides the call order instead of a fixed pipeline for a concrete reason: a login-service latency spike and a full node eviction don't need the same evidence, and one hardcoded five-stage sequence either over-collects for the simple case or under-collects for the novel one. The DAG trace is what makes that trade-off defensible — every routing decision is auditable after the fact instead of just trusted. Redis Streams over a heavier broker for the same reason it's a homelab platform and not a startup's message bus: consumer groups already give at-least-once delivery and replay, and standing up a second distributed system to move an alert a few hops isn't a trade worth making at this scale.</p>
+          </section>
+          <section>
+            <h3>Designed to degrade, not crash</h3>
+            <p>Every call between the orchestrator and an agent goes through a resilience layer, not a bare HTTP client: retries with exponential backoff and jitter on connect errors, timeouts and 5xx responses — never on 4xx, there's no point retrying a bad request — plus a circuit breaker per agent endpoint that opens after repeated consecutive failures so one unhealthy agent can't stall an entire investigation. When agents run in parallel, one failing doesn't abort the run; the orchestrator gathers whatever came back and keeps going on partial evidence. And where an error does get swallowed on purpose — a best-effort side effect that shouldn't block the main path — it still increments a Prometheus counter wired to a real alert, so "silently ignored" never means invisible.</p>
           </section>
           <section>
             <h3>Built the way it's meant to be trusted</h3>
@@ -341,8 +350,8 @@
             </ul>
           </section>
           <section>
-            <h3>Closing the loop with RCAI</h3>
-            <p>Pulso's Alertmanager alerts feed straight into an RCAI Kubernetes agent running on the same cluster. The moment something fires, it collects logs, traces and metrics on its own and runs them through an on-cluster LLM to produce a structured root-cause analysis — ranked causes, evidence, recommended actions — with no one triggering it by hand. It's RCAI's own reasoning, dogfooded on infrastructure I actually depend on.</p>
+            <h3>Closing the loop with RootCauseway</h3>
+            <p>Pulso's Alertmanager alerts feed straight into a RootCauseway Kubernetes agent running on the same cluster. The moment something fires, it collects logs, traces and metrics on its own and runs them through an on-cluster LLM to produce a structured root-cause analysis — ranked causes, evidence, recommended actions — with no one triggering it by hand. It's RootCauseway's own reasoning, dogfooded on infrastructure I actually depend on.</p>
           </section>
         </div>
 
@@ -400,7 +409,7 @@
         </div>
         <div class="step">
           <div class="snum">04</div>
-          <div><h3>Operate what you build</h3><p>The same reasoning that helps design a system gets deployed to help run it — RCAI's Kubernetes agent watching Pulso's real alerts is that idea in production, not a slide.</p></div>
+          <div><h3>Operate what you build</h3><p>The same reasoning that helps design a system gets deployed to help run it — RootCauseway's Kubernetes agent watching Pulso's real alerts is that idea in production, not a slide.</p></div>
         </div>
       </div>
     </div>
@@ -441,7 +450,7 @@
         </div>
       </div>
       <div class="fine">
-        <span>© <span id="year"></span> Marcos Rezende. Currently reliability-engineering at AmbevTech — RCAI and Pulso are independent, personal work.</span>
+        <span>© <span id="year"></span> Marcos Rezende. Currently reliability-engineering at AmbevTech — RootCauseway and Pulso are independent, personal work.</span>
         <span>Built with Claude Code.</span>
       </div>
     </div>
