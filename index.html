@@ -116,16 +116,48 @@
     text-decoration:none; letter-spacing:0.01em;
   }
   header.top .name span{color:var(--accent);}
-  header.top nav{display:flex; flex-wrap:wrap; gap:10px 26px;}
+  header.top nav{display:flex; align-items:center; flex-wrap:wrap; gap:10px 26px;}
   header.top nav a{
     font-family:var(--font-mono); font-size:12.5px; text-transform:uppercase;
     letter-spacing:0.04em; text-decoration:none; color:var(--muted);
     transition:color .15s ease; white-space:nowrap;
   }
   header.top nav a:hover, header.top nav a:focus-visible{color:var(--accent);}
+
+  /* ---- nav dropdown (Lab Projects) ---- */
+  header.top nav .nav-drop{position:relative;}
+  header.top nav .nav-drop summary{
+    font-family:var(--font-mono); font-size:12.5px; text-transform:uppercase;
+    letter-spacing:0.04em; color:var(--muted); cursor:pointer;
+    list-style:none; white-space:nowrap; display:flex; align-items:center; gap:5px;
+    transition:color .15s ease;
+  }
+  header.top nav .nav-drop summary::-webkit-details-marker{display:none;}
+  header.top nav .nav-drop summary::after{
+    content:"▾"; font-size:9px; position:relative; top:1px; color:var(--muted);
+    transition:color .15s ease, transform .15s ease;
+  }
+  header.top nav .nav-drop:hover summary,
+  header.top nav .nav-drop summary:focus-visible{color:var(--accent);}
+  header.top nav .nav-drop:hover summary::after,
+  header.top nav .nav-drop summary:focus-visible::after{color:var(--accent);}
+  header.top nav .nav-drop[open] summary::after{transform:rotate(180deg);}
+  header.top nav .nav-drop-menu{
+    position:absolute; top:calc(100% + 12px); left:0; z-index:30;
+    display:flex; flex-direction:column; min-width:168px;
+    background:var(--surface); border:1px solid var(--line); border-radius:6px;
+    box-shadow:0 8px 24px var(--shadow); padding:6px;
+  }
+  header.top nav .nav-drop-menu a{
+    padding:8px 10px; border-radius:4px; color:var(--ink);
+    text-transform:none; letter-spacing:0; font-size:13px;
+  }
+  header.top nav .nav-drop-menu a:hover, header.top nav .nav-drop-menu a:focus-visible{
+    background:var(--surface-2); color:var(--accent);
+  }
   @media (max-width:640px){
     header.top nav{gap:8px 14px; width:100%;}
-    header.top nav a{font-size:10.5px;}
+    header.top nav a, header.top nav .nav-drop summary{font-size:10.5px;}
   }
 
   :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px;}
@@ -257,8 +289,13 @@
   <div class="wrap bar">
     <a href="#top" class="name">marcos<span>.</span>rezende</a>
     <nav>
-      <a href="#rootcauseway">RootCauseway</a>
-      <a href="#pulso">Pulso</a>
+      <details class="nav-drop">
+        <summary>Lab Projects</summary>
+        <div class="nav-drop-menu">
+          <a href="#rootcauseway">RootCauseway</a>
+          <a href="#pulso">Pulso</a>
+        </div>
+      </details>
       <a href="#work">Work</a>
       <a href="#method">Method</a>
       <a href="#stack">Stack</a>
@@ -517,6 +554,19 @@
     els.forEach(function(el){ io.observe(el); });
   } else {
     els.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // Close the "Lab Projects" nav dropdown after picking a link, or on an
+  // outside click -- <details> alone stays open until the user clicks
+  // elsewhere inside itself, which reads as stuck/broken after navigating.
+  var navDrop = document.querySelector('.nav-drop');
+  if (navDrop) {
+    navDrop.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){ navDrop.open = false; });
+    });
+    document.addEventListener('click', function(e){
+      if (navDrop.open && !navDrop.contains(e.target)) navDrop.open = false;
+    });
   }
 </script>
 </body>
