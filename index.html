@@ -99,21 +99,25 @@
   }
   header.top .bar{
     display:flex; align-items:center; justify-content:space-between;
-    height:60px;
+    flex-wrap:wrap; row-gap:8px;
+    min-height:60px; padding:10px 0;
   }
   header.top .name{
     font-family:var(--font-mono); font-size:14px; font-weight:600;
     text-decoration:none; letter-spacing:0.01em;
   }
   header.top .name span{color:var(--accent);}
-  header.top nav{display:flex; gap:26px;}
+  header.top nav{display:flex; flex-wrap:wrap; gap:10px 26px;}
   header.top nav a{
     font-family:var(--font-mono); font-size:12.5px; text-transform:uppercase;
     letter-spacing:0.04em; text-decoration:none; color:var(--muted);
-    transition:color .15s ease;
+    transition:color .15s ease; white-space:nowrap;
   }
   header.top nav a:hover, header.top nav a:focus-visible{color:var(--accent);}
-  @media (max-width:640px){ header.top nav{gap:16px;} header.top nav a{font-size:11px;} }
+  @media (max-width:640px){
+    header.top nav{gap:8px 14px; width:100%;}
+    header.top nav a{font-size:10.5px;}
+  }
 
   :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px;}
 
@@ -318,7 +322,7 @@
             <div class="dcaption">agent mesh — each box is its own microservice + Agent Card</div>
           </div>
           <div class="chips">
-            <span class="chip">Go</span><span class="chip">Python / FastAPI</span><span class="chip">CrewAI</span>
+            <span class="chip">Go</span><span class="chip">Python / FastAPI</span>
             <span class="chip">React / TypeScript</span><span class="chip">PostgreSQL</span><span class="chip">Redis Streams</span>
             <span class="chip">Google A2A Protocol</span><span class="chip">MLflow</span><span class="chip">Docker</span>
           </div>
@@ -434,7 +438,7 @@
         </div>
         <div class="stack-col">
           <h4>Observability &amp; AI</h4>
-          <ul><li>Prometheus · Grafana</li><li>Loki · Tempo</li><li>MLflow</li><li>CrewAI · Google A2A</li><li>k6</li></ul>
+          <ul><li>Prometheus · Grafana</li><li>Loki · Tempo</li><li>MLflow</li><li>Google A2A</li></ul>
         </div>
       </div>
     </div>
