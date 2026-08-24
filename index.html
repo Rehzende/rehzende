@@ -309,6 +309,14 @@
             <p>Every call between the orchestrator and an agent goes through a resilience layer, not a bare HTTP client: retries with exponential backoff and jitter on connect errors, timeouts and 5xx responses — never on 4xx, there's no point retrying a bad request — plus a circuit breaker per agent endpoint that opens after repeated consecutive failures so one unhealthy agent can't stall an entire investigation. When agents run in parallel, one failing doesn't abort the run; the orchestrator gathers whatever came back and keeps going on partial evidence. And where an error does get swallowed on purpose — a best-effort side effect that shouldn't block the main path — it still increments a Prometheus counter wired to a real alert, so "silently ignored" never means invisible.</p>
           </section>
           <section>
+            <h3>Integrations that route somewhere real</h3>
+            <p>Alerts come in from Prometheus/Alertmanager, Datadog, Grafana or a generic webhook and get normalized into one shape before anything else touches them. Going the other direction, once an incident exists, notifications go back out through Slack, Teams, a generic webhook or PagerDuty — filtered by severity-aware escalation policies, not a flat broadcast to every channel. A new-incident Slack message isn't just informational either: it carries interactive Acknowledge / View RCA / Resolve buttons wired back into the platform, each click a signed webhook the backend verifies before acting on it.</p>
+          </section>
+          <section>
+            <h3>War Room: a meeting Microsoft actually creates</h3>
+            <p>One click on an incident creates a real Microsoft Teams meeting — a genuine calendar event with a joinable call attached, via delegated OAuth (a connected service/bot account, no tenant-admin PowerShell step). The affected service's on-call/SRE contacts get resolved and invited automatically instead of someone having to go find the link inside the platform, recording and transcription turn on at creation, and the meeting's status (scheduled → active → ended → summarized) reflects real attendance data, not a manual toggle. Ending it hands the transcript to an LLM for an executive summary and action items, asynchronously — closing the loop from "alert fired" to "humans talked about it, and that conversation is on the record" without leaving the incident.</p>
+          </section>
+          <section>
             <h3>Built the way it's meant to be trusted</h3>
             <p>Contracts before code, tests before implementation, and — because a lot of this gets built with AI agents working in parallel — a quality harness that's non-negotiable: nothing ships until the real build and test suite has been run by hand. That discipline has caught bugs no agent's own report mentioned — a call into a method a sibling agent had already refactored, a security fix that silently broke every internal caller that forgot to send the new required header, frontend routes calling backend endpoints that were never actually implemented.</p>
           </section>
@@ -326,15 +334,21 @@
               <div class="dnode">RCA / RCI</div>
               <div class="dnode">Postmortem</div>
               <div class="dnode">K8s-Debug</div>
+              <div class="dnode">Azure-Diagnostics</div>
             </div>
             <div class="darrow">↓ DAG-tracked results</div>
             <div class="dnode">Structured incident record — blameless, evidence-grounded, confidence-scored</div>
+            <div class="darrow">↓ in parallel</div>
+            <div class="dmesh">
+              <div class="dnode">War Room — real Teams meeting, auto-invited</div>
+              <div class="dnode">Notifications — Slack / Teams / PagerDuty / webhook</div>
+            </div>
             <div class="dcaption">agent mesh — each box is its own microservice + Agent Card</div>
           </div>
           <div class="chips">
             <span class="chip">Go</span><span class="chip">Python / FastAPI</span>
             <span class="chip">React / TypeScript</span><span class="chip">PostgreSQL</span><span class="chip">Redis Streams</span>
-            <span class="chip">Google A2A Protocol</span><span class="chip">MLflow</span><span class="chip">Docker</span>
+            <span class="chip">Google A2A Protocol</span><span class="chip">Microsoft Graph API</span><span class="chip">MLflow</span><span class="chip">Docker</span>
           </div>
         </div>
       </div>
