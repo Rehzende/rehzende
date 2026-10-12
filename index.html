@@ -14,7 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="Marcos Rezende — Site Reliability Engineer. I build AI-native incident-investigation systems and run them against a real production app in my own homelab." />
 <meta property="og:title" content="Marcos Rezende — Site Reliability Engineer" />
-<meta property="og:description" content="AI-native incident investigation, built and operated end to end." />
+<meta property="og:description" content="Senior Cloud Infrastructure Architect at AB InBev. 30+ Kubernetes clusters, GenAI platforms, AI-native incident investigation." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='84'%3E%F0%9F%93%A1%3C/text%3E%3C/svg%3E" />
 <title>Marcos Rezende — Site Reliability Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -289,6 +289,7 @@
   <div class="wrap bar">
     <a href="#top" class="name">marcos<span>.</span>rezende</a>
     <nav>
+      <a href="#work">Work</a>
       <details class="nav-drop">
         <summary>Lab Projects</summary>
         <div class="nav-drop-menu">
@@ -296,7 +297,6 @@
           <a href="#pulso">Pulso</a>
         </div>
       </details>
-      <a href="#work">Work</a>
       <a href="#method">Method</a>
       <a href="#stack">Stack</a>
       <a href="#contact">Contact</a>
@@ -307,14 +307,34 @@
 <main id="top">
   <section class="hero">
     <div class="wrap">
-      <span class="eyebrow">Site Reliability Engineer</span>
-      <h1>I'm an SRE.<br />This is my homelab.</h1>
-      <p class="sub">I'm <strong>Marcos Rezende</strong>. On my own Kubernetes cluster at home I build and run two things: <strong>RootCauseway</strong>, a self-hosted incident-investigation platform, and <strong>Pulso</strong>, a real app I use to load-test and break it on purpose. Both are below, with the actual numbers.</p>
+      <span class="eyebrow">Site Reliability Engineer · Platform &amp; GenAI</span>
+      <h1>I keep large Kubernetes platforms reliable, and build AI that investigates incidents.</h1>
+      <p class="sub">I'm <strong>Marcos Rezende</strong>, <strong>Senior Cloud Infrastructure Architect at AB InBev</strong>. I run <strong>30+ Kubernetes clusters</strong> under Rancher, serve <strong>2,000+ users</strong> on a self-hosted CrewAI platform, and support Airflow at <strong>50,000+ tasks a day</strong>. On my own time I build <strong>RootCauseway</strong>, a self-hosted incident-investigation platform, and <strong>Pulso</strong>, a fitness app now on the app stores that I load-test and harden on my own k3s cluster.</p>
       <div class="cta-row">
-        <a class="btn primary" href="#rootcauseway">See the work ↓</a>
+        <a class="btn primary" href="mailto:rehzende@hotmail.com">Email me</a>
+        <a class="btn" href="#work">See the work ↓</a>
         <a class="btn" href="https://github.com/Rehzende" target="_blank" rel="noopener">GitHub</a>
         <a class="btn" href="https://linkedin.com/in/marcosrehzende" target="_blank" rel="noopener">LinkedIn</a>
       </div>
+    </div>
+  </section>
+
+  <section class="case reveal" id="work">
+    <div class="wrap">
+      <div class="case-head">
+        <h2>What I do for a living</h2>
+        <div class="case-meta">
+          <span class="case-tag">[CURRENTLY] AB InBev · Senior Cloud Infrastructure Architect</span>
+          <a class="repo-link" href="https://linkedin.com/in/marcosrehzende" target="_blank" rel="noopener">Full experience on LinkedIn →</a>
+        </div>
+      </div>
+      <p class="case-dek">RootCauseway and Pulso above are lab work — built and run on my own time, on my own hardware. This is separate: what I'm paid to build, currently leading platform engineering and GenAI initiatives at AB InBev.</p>
+      <ul class="find-list" style="max-width:70ch;">
+        <li><strong>Self-hosted CrewAI on Kubernetes</strong>, architected and scaled to 2,000+ internal users.</li>
+        <li><strong>A self-service Airflow plugin for GenAI debugging</strong>: a developer picks a failed task and triggers an on-demand root-cause analysis that traces logs across Databricks and Airflow — on an environment running 5,000+ DAGs and 50,000+ tasks a day.</li>
+        <li>Led the <strong>Airflow 2→3 migration</strong> on that same environment, and centralized <strong>30+ Kubernetes clusters</strong> under Rancher for consistent governance.</li>
+        <li>Before that, as an <strong>SRE at Ambev Tech</strong> (2020–2024): a Python/ArgoCD framework that rolled out KEDA, Ingress and Datadog identically across 40+ clusters, and a build-once-deploy-anywhere pipeline behind 100+ microservices.</li>
+      </ul>
     </div>
   </section>
 
@@ -396,9 +416,9 @@
     <div class="wrap">
       <div class="case-head">
         <h2>Pulso</h2>
-        <span class="case-tag">[PRODUCTION] fitness app · homelab-operated · k3s</span>
+        <span class="case-tag">[PRODUCT] fitness app · on the app stores · k3s</span>
       </div>
-      <p class="case-dek">A real fitness app — workouts, streaks, gamification — that I run on my own k3s cluster at home. Not a demo environment: real traffic, real load tests, real incidents.</p>
+      <p class="case-dek">A fitness app — workouts, streaks, gamification — published on the app stores. The code is private; this is how I load-tested and hardened its backend on my own k3s cluster.</p>
 
       <div class="case-grid">
         <div>
@@ -430,7 +450,7 @@
             <div class="metric">
               <div class="m-label">p95 latency, under peak load</div>
               <div class="m-value"><span class="from">43s</span><span class="arrow">→</span><span class="to">20s</span></div>
-              <div class="m-note">no pod restarts on the retest</div>
+              <div class="m-note">homelab hardware, no pod restarts on retest. The goal was finding the limit, not hiding it</div>
             </div>
             <div class="metric">
               <div class="m-label">Peak simulated traffic</div>
@@ -450,25 +470,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="case reveal" id="work">
-    <div class="wrap">
-      <div class="case-head">
-        <h2>What I do for a living</h2>
-        <div class="case-meta">
-          <span class="case-tag">[CURRENTLY] AB InBev · Senior Cloud Infrastructure Architect</span>
-          <a class="repo-link" href="https://linkedin.com/in/marcosrehzende" target="_blank" rel="noopener">Full experience on LinkedIn →</a>
-        </div>
-      </div>
-      <p class="case-dek">RootCauseway and Pulso above are lab work — built and run on my own time, on my own hardware. This is separate: what I'm paid to build, currently leading platform engineering and GenAI initiatives at AB InBev.</p>
-      <ul class="find-list" style="max-width:70ch;">
-        <li><strong>Self-hosted CrewAI on Kubernetes</strong>, architected and scaled to 2,000+ internal users.</li>
-        <li><strong>A self-service Airflow plugin for GenAI debugging</strong>: a developer picks a failed task and triggers an on-demand root-cause analysis that traces logs across Databricks and Airflow — on an environment running 5,000+ DAGs and 50,000+ tasks a day.</li>
-        <li>Led the <strong>Airflow 2→3 migration</strong> on that same environment, and centralized <strong>30+ Kubernetes clusters</strong> under Rancher for consistent governance.</li>
-        <li>Before that, as an <strong>SRE at Ambev Tech</strong> (2020–2024): a Python/ArgoCD framework that rolled out KEDA, Ingress and Datadog identically across 40+ clusters, and a build-once-deploy-anywhere pipeline behind 100+ microservices.</li>
-      </ul>
     </div>
   </section>
 
@@ -510,7 +511,7 @@
         </div>
         <div class="stack-col">
           <h4>Infra &amp; orchestration</h4>
-          <ul><li>Kubernetes (k3s)</li><li>Docker</li><li>Terraform</li><li>AWS · Azure</li><li>Nginx</li></ul>
+          <ul><li>Kubernetes · Rancher · k3s</li><li>ArgoCD · KEDA</li><li>Docker</li><li>Terraform</li><li>AWS · Azure</li><li>Nginx</li></ul>
         </div>
         <div class="stack-col">
           <h4>Data &amp; messaging</h4>
@@ -518,7 +519,7 @@
         </div>
         <div class="stack-col">
           <h4>Observability &amp; AI</h4>
-          <ul><li>Prometheus · Grafana</li><li>Loki · Tempo</li><li>MLflow</li><li>Google A2A</li></ul>
+          <ul><li>Prometheus · Grafana · Datadog</li><li>Loki · Tempo</li><li>Airflow · Databricks</li><li>CrewAI · MLflow · Google A2A</li></ul>
         </div>
       </div>
     </div>
@@ -527,8 +528,9 @@
   <footer id="contact">
     <div class="wrap">
       <div class="foot-top">
-        <h2>Get in touch.</h2>
+        <h2>Open to new roles. Get in touch.</h2>
         <div class="links">
+          <a href="mailto:rehzende@hotmail.com">rehzende@hotmail.com</a>
           <a href="https://github.com/Rehzende" target="_blank" rel="noopener">github.com/Rehzende</a>
           <a href="https://linkedin.com/in/marcosrehzende" target="_blank" rel="noopener">linkedin.com/in/marcosrehzende</a>
         </div>
